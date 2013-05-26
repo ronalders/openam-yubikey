@@ -55,6 +55,18 @@ PUBLIC "=//iPlanet//Service Management Services (SMS) 1.0 DTD//EN"
                                  syntax="string"
                                  i18nKey="a102">
                 </AttributeSchema>
+                <AttributeSchema name="sunAMAuthYubikeyModuleWSApiUrls"
+                                 type="list"
+                                 syntax="string"
+                                 i18nKey="a104">
+                    <DefaultValues>
+                        <Value>https://api.yubico.com/wsapi/2.0/verify</Value>
+                        <Value>https://api2.yubico.com/wsapi/2.0/verify</Value>
+                        <Value>https://api3.yubico.com/wsapi/2.0/verify</Value>
+                        <Value>https://api4.yubico.com/wsapi/2.0/verify</Value>
+                        <Value>https://api5.yubico.com/wsapi/2.0/verify</Value>
+                    </DefaultValues>
+                </AttributeSchema>
 
                 <AttributeSchema name="sunAMAuthYubikeyModuleYubiKeyAttributeName"
                                  type="single"

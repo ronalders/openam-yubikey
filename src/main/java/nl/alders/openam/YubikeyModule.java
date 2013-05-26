@@ -64,12 +64,14 @@ public class YubikeyModule extends AMLoginModule {
     // Module setting parameters
     private static final String CLIENTID = ISAuthConstants.AUTH_ATTR_PREFIX_NEW + "YubikeyModuleClientID";
     private static final String SECRETKEY = ISAuthConstants.AUTH_ATTR_PREFIX_NEW + "YubikeyModuleSecretKey";
+    private static final String YUBIKEY_VAL_SERVERS = ISAuthConstants.AUTH_ATTR_PREFIX_NEW + "YubikeyModuleWSApiUrls";
     private static final String YUBIKEY_ATTR = ISAuthConstants.AUTH_ATTR_PREFIX_NEW + "YubikeyModuleYubiKeyAttributeName";
 
 
     private int clientId = 0;
     private String secretKey = null;
     private String yubikeyAttrName = null;
+    private String wsapiUrls[] = {};
 
     /**
      * Constructor
@@ -104,6 +106,9 @@ public class YubikeyModule extends AMLoginModule {
             }
             secretKey = CollectionHelper.getMapAttr(options, SECRETKEY);
             yubikeyAttrName = CollectionHelper.getMapAttr(options, YUBIKEY_ATTR);
+            // Validation servers
+            Set<String> attrs = (Set<String>) options.get(YUBIKEY_VAL_SERVERS);
+            wsapiUrls = attrs.toArray(new String[attrs.size()]);
         }
         //get username from previous authentication
         try {
@@ -182,6 +187,9 @@ public class YubikeyModule extends AMLoginModule {
         try {
             YubicoClient client = YubicoClient.getClient(this.clientId);
             client.setKey(this.secretKey);
+            if (wsapiUrls != null && wsapiUrls.length > 0) {
+                client.setWsapiUrls(this.wsapiUrls);
+            }
             YubicoResponse yubicoResponse = client.verify(otp);
             return yubicoResponse.getStatus().equals(YubicoResponseStatus.OK) && yubicoResponse.getPublicId().equals(yubiKeyId);
         } catch (YubicoValidationException e) {
