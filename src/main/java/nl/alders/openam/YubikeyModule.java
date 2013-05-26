@@ -107,8 +107,10 @@ public class YubikeyModule extends AMLoginModule {
             secretKey = CollectionHelper.getMapAttr(options, SECRETKEY);
             yubikeyAttrName = CollectionHelper.getMapAttr(options, YUBIKEY_ATTR);
             // Validation servers
-            Set<String> attrs = (Set<String>) options.get(YUBIKEY_VAL_SERVERS);
-            wsapiUrls = attrs.toArray(new String[attrs.size()]);
+            Set<String> wsapiUrlsSet = (Set<String>) options.get(YUBIKEY_VAL_SERVERS);
+            if (wsapiUrlsSet != null) {
+                wsapiUrls = wsapiUrlsSet.toArray(new String[wsapiUrlsSet.size()]);
+            }
         }
         //get username from previous authentication
         try {
@@ -186,7 +188,9 @@ public class YubikeyModule extends AMLoginModule {
         }
         try {
             YubicoClient client = YubicoClient.getClient(this.clientId);
-            client.setKey(this.secretKey);
+            if (StringUtils.isNotEmpty(secretKey)) {
+                client.setKey(this.secretKey);
+            }
             if (wsapiUrls != null && wsapiUrls.length > 0) {
                 client.setWsapiUrls(this.wsapiUrls);
             }
