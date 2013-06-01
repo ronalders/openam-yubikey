@@ -125,5 +125,10 @@
             <version>2.0.1</version>
         </dependency>
     </dependencies>
-
+    <repositories>
+        <repository>
+            <id>forgerock</id>
+            <url>http://maven.forgerock.org/repo/releases</url>
+        </repository>
+    </repositories>
 </project>
