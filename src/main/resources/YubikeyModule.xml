@@ -29,8 +29,8 @@
 
 <ModuleProperties moduleName="YubikeyModule" version="1.0" >
     <Callbacks length="2" order="1" timeout="120" header="Yubikey OTP token validation" >
-        <PasswordCallback>
-            <Prompt>Yubikey OTP:</Prompt>
+        <PasswordCallback echoPassword="false">
+            <Prompt>Yubikey code:</Prompt>
         </PasswordCallback>
         <ConfirmationCallback>
             <OptionValues>
